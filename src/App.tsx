@@ -1,9 +1,9 @@
-interface User{
-  name: string;
-  id: number;
-}
-const App = () => {
 
+const App = () => {
+  interface User{
+    name: string;
+    id: number;
+  }
   const newUser = (name:string, id:number)=>{
     console.log(name)
     console.log(id)
@@ -16,8 +16,9 @@ const App = () => {
 
   newUser("Thazin",1);
   newUser2({name:"Sai", id:2})
-  newUser2({name:"Myo", id:3, lastName:"Myat"})
+  newUser2({name:"Myo", id:3, lastName:"Myat"}) //error
 
+//Reusable declaration
   type Point={
     x: number;
     y: number;
@@ -36,6 +37,7 @@ const App = () => {
   const color = { hex: "#187ABF" };
   logPoint(color); //error
 
+//Union types
   type MyBool=true | false
 
   const checkBool = (isCheck:MyBool) =>{
@@ -51,7 +53,7 @@ const App = () => {
   }
 
   setWindow("open")
-  setWindow("maximized")
+  setWindow("maximized") //error
 
   const wrapInArray=(obj: string | string[])=>{
     if(typeof obj === "string"){
@@ -66,6 +68,7 @@ const App = () => {
   const rValue2 = wrapInArray(["sai myo Myat"])
   console.log(rValue2)
 
+//generics
   type StringArray = Array<string>;
   type NumberArray = Array<number>;
   type ObjectArray = Array<{name:string,id:number}>
@@ -79,6 +82,7 @@ const App = () => {
   const objArr : ObjectArray = [{name:"Thazin",id:1},{name:"Naing",id:2}]
   console.log(objArr)
 
+// type annotations in parameter
   const greet=(person:string, date:Date)=>{
     console.log("Hello ".concat(person, ", Today is").concat(date.toDateString(), "!"))
     console.log(`Hi ${person}, Today is ${date.toDateString()}! A good day. `)
@@ -94,6 +98,7 @@ const App = () => {
   }
   console.log(getFavouriteNumber());
 
+//Declare return type in function
   const addTwoNumbers=(a:number, b:number):string=>{
     return (`Add two numbers, ${a} and ${b} is ${a+b}`)
   }
@@ -105,18 +110,94 @@ const App = () => {
   }
   console.log(asyncFun())
 
-   //contextual typing because the context that the function within informs what type it should have
+//contextual typing because the context that the function within informs what type it should have
   const names=["Alice", "Bob", "Eve"]
 
   names.forEach((name)=>{
     console.log(name.toUpperCase())
   })
 
-  
+  //adding properties or options with ? 
+  const printName=(obj:{first:string, last?:string})=>{
+    console.log(`First name is ${obj.first} Last name is ${obj.last}`)
+  }
 
+  printName({first:"Pu", last:"Tuu"})
+  printName({first:"Naing"})
 
+//Difference between interface and type
+//Extending an interface
+  interface Animal{
+    name:string;
+  }
+  interface Bear extends Animal{
+    honey:boolean;
+  }
+  const getBear=():Bear=>{
+    return {name:"Polar",honey:true}
+  }
+  const bear=getBear();
+  console.log(bear.name+" "+bear.honey)
 
-  
+//Extending a type via intersections
+  type Tree={
+    name:string;
+  }
+  type Mango=Tree &{
+    big:boolean;
+  }
+  const getTree=():Mango=>{
+    return {name:"Mango",big:true}
+  }
+  const tree=getTree();
+    console.log(tree.name+" "+tree.big)
+
+  //Adding new fields to an existing interface
+    interface Window{
+      title: string;
+    }
+    interface Window{
+      id:number
+    }
+    const getWindow=(window:Window)=>{
+      console.log(window.title+" "+window.id)
+    }
+    getWindow({title:"DELL",id:4})
+
+  //A type cannot be changed after being created
+  //Duplicate identifier
+    type Trip={
+      name:string
+    }
+    // type Trip={
+    //   id:number
+    // }
+
+  //type assertions
+    const myRoot=document.getElementById("root") as HTMLCanvasElement;
+    console.log(myRoot)
+
+// Literal types
+  const printText=(s:string, alignment:"center"|"left"|"right")=>{
+    console.log(s+" "+alignment)
+  }
+  printText("Hello","center")
+
+  interface Options{
+    width:number
+  }
+  const configure=(x:Options | "auto")=>{
+    console.log(x)
+  }
+  configure({width:100})
+  configure("auto")
+
+  const mytype=true
+  const obj={counter:0}
+    if(mytype){
+      obj.counter=1
+    }
+  console.log(obj.counter)
 
   return (
     <div>
