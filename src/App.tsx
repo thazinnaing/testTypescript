@@ -173,7 +173,7 @@ const App = () => {
     //   id:number
     // }
 
-  //type assertions
+  //type assertions (as)
     const myRoot=document.getElementById("root") as HTMLCanvasElement;
     console.log(myRoot)
 
@@ -198,6 +198,39 @@ const App = () => {
       obj.counter=1
     }
   console.log(obj.counter)
+
+//Literal Inference (as const)
+  const handleRequest=(url:string, method:"GET"|"POST")=>{
+    console.log(url+" "+method)
+  }
+  const req={url:"https://iii.com",method:"GET" as "GET"}
+  handleRequest(req.url, req.method as "GET")
+
+  const req1={url:"https://iii.com",method:"GET"} as const
+  handleRequest(req1.url, req1.method)
+
+//Non-null Assertion Operator (Postfix !)
+  const liveDangerously=(x?:number | null)=>{
+    console.log(x!.toFixed())
+  }
+  liveDangerously(3)
+
+//bigint with function (BigInt) and literal syntax(...n)
+  const oneHundred:bigint= BigInt(100)
+  const anotherHundred:bigint=200n
+  console.log(oneHundred+" "+anotherHundred)
+
+//symbol (symbols are unique and immutable)
+  const firstName=Symbol("name")
+  const secondName=Symbol("name")
+
+  const isEqual=firstName === secondName //They are never be the same
+
+
+
+
+
+
 
   return (
     <div>
